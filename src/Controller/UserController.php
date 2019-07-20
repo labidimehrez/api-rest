@@ -19,16 +19,21 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use DateTime;
 use App\Services\CacheHandler;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends Controller
 {
-
     /**
      * @Route("/api/user/add", methods={"PUT"}, name="create_user")
      */
-    public function postAddUser(Request $request, TranslatorInterface $translator, UserManager $userManager)
+    public function postAddUser(Request $request, SerializerInterface $serializer)
     {
-        $result = $userManager->addUser($request, $translator);
+        $em = $this->getDoctrine()->getManager();
+        $data =  $serializer->serialize($request->query->all(), 'json');
+        $user = $serializer->deserialize($data, User::class, 'json');
+        $em->persist($user);
+        $em->flush();
+        $result = "Success";
 
         return new JsonResponse($result);
     }
@@ -41,6 +46,7 @@ class UserController extends Controller
     public function deleteUserFromGroup(User $user, Group $group, UserManager $userManager)
     {
         $result = $userManager->deleteUserFromGroup($user, $group);
+
         return new JsonResponse($result);
     }
 
@@ -52,6 +58,7 @@ class UserController extends Controller
     public function postUserToGroup(User $user, Group $group, UserManager $userManager)
     {
         $result = $userManager->addUserToGroup($user, $group);
+
         return new JsonResponse($result);
     }
 
@@ -65,7 +72,6 @@ class UserController extends Controller
         $response = new Response($data);
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent($data);
-
         $response = $cacheHandler->setCacheResponse($response, $request);
 
         return $response;
@@ -98,7 +104,6 @@ class UserController extends Controller
         $response = new Response($data);
         $response->headers->set('Content-Type', 'application/json');
         $response->setContent($data);
-
         $this->cacheSetting($response);
 
         return $response;
