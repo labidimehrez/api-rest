@@ -1,0 +1,5 @@
+name.can.not.be.blank: le nom ne doit pas être vide.
+firstname.can.not.be.blank: le prénom ne doit pas être vide.
+lastname.can.not.be.blank: le nom ne doit pas être vide. 
+group.can.not.be.blank: Le choix de groupe est  obligatoire
+ 

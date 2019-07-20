@@ -1,0 +1,7 @@
+#user:
+#    path: /api
+#    defaults: { _controller: 'App\Controller\UserController::indexAction' }
+#
+#
+#api_login_check:
+#    path: /api/login_check

@@ -1,0 +1,4 @@
+name.can.not.be.blank: the name must not be empty.
+firstname.can.not.be.blank: the first name must not be empty.
+lastname.can.not.be.blank: the name must not be empty. 
+group.can.not.be.blank: group choice is mandatory
