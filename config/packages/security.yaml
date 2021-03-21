@@ -1,30 +1,23 @@
 security:
-    
-    encoders:
-        # this internal class is used by Symfony to represent in-memory users
-        Symfony\Component\Security\Core\User\User: 'bcrypt'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users:
-            entity:
-                class: App\Entity\User
-                property: 'firstName'
-                # optional: if you're using multiple Doctrine entity
-                # managers, this option defines which one to use
-                # manager_name: 'customer'
-            
+        users_in_memory: { memory: null }
     firewalls:
-
-        login:
-            pattern:  ^/api/login
-            stateless: true
-            anonymous: true
-
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         main:
-            anonymous: ~
-            logout: ~
- 
-                    
+            anonymous: true
+            provider: users_in_memory
+
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
     access_control:
-#        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

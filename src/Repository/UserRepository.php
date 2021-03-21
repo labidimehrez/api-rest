@@ -29,7 +29,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             $group = $group->getId();
         }
         return $this->getEntityManager()
-                        ->createQuery('  SELECT  u  FROM   App\Entity\User u JOIN u.groups g  WHERE g.id=:id ')
+                        ->createQuery('  SELECT  u  FROM   App\Entity\User u JOIN u.groups g  WHERE g.id =:id ')
                         ->setParameter('id', $group)
                         ->getResult();
     }
